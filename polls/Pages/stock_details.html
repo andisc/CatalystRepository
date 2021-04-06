@@ -1,0 +1,179 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block content %}
+
+<head>
+  <title>Catalyst Repository | {{ stock_information.stock_name }}</title>
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+
+  <main class="content">
+    <section class="page-section">
+      <br>
+      <h2 class="mt-2">{{ stock_information.stock_name }}</h2>
+      <div class="mt--2">({{ stock_information.exchange }}:{{ stock_information.stock_ticker }})</div>
+      <p>List of stocks that have earnings releases today according to the NASDAQ earnings calendar. The list is enriched with the estimated release time, the stock price data for normal and extended hours and an earnings related headline. </p>
+      
+      <div class="row">
+        
+          <div class="col-12 col-sm-6 ">
+            <div class="card card-illustration">
+              <div class="card-body">
+                <h5 class="card-title">{{ stock_information.stock_ticker }} Overview </h5>
+                <hr style="height:1px;border-width:0;color:grey;background-color:grey">
+                <div class="row">
+                  <div class="col-6 .col-sm-4" >
+                    <span class="stock-price-text">{{ stock_atual_price }}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 .col-sm-4" >
+                    <table style="width: 100%;">
+                      <tr>
+                        <td><div class="color-dark-grey text-top">Sector</div></td>
+                        <td><div class="text-right font-weight-bold">{{ stock_information.sector }}</div></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="col-6 .col-sm-4 ">
+                    <table style="width: 100%;">
+                      <tr>
+                        <td class="text-top"><div class="color-dark-grey">Industry</div></td>
+                        <td><div class="text-right font-weight-bold">{{ stock_information.industry }}</div></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-6 .col-sm-4 ">
+                    <table style="width: 100%;">
+                      <tr>
+                        <td class="text-top"><div class="color-dark-grey">Previous Close</div></td>
+                        <td><div class="text-right font-weight-bold">${{ stock_information.last_price }}</div></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="col-6 .col-sm-4 ">
+                    <table style="width: 100%;">
+                      <tr>
+                        <td class="text-top"><div class="color-dark-grey">Previous Close Volume</div></td>
+                        <td><div class="text-right font-weight-bold">{{ stock_information.volume }}</div></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-12 col-sm-6 ">
+            <b>Description</b>
+            <p>{{ stock_information.businessSummary }}</p>
+          </div>
+        </div>
+      </section>
+
+      <br><br>
+
+      <!-- Todays articles, it only appears if some news was released -->
+      {% if today_articles %}
+      <section class="page-section">
+        <div class="row">
+          <div class="card card-illustration ">
+            <div class="card-header-2">
+              
+              <h5 class="card-title mb-0">Today's News Headlines</h5>
+            </div>
+            <div class="card-body">
+              <ul class="timeline">
+                {% for article in today_articles %}
+                  <li class="timeline-item-2">
+                    <strong>{{ article.article_text }}</strong>
+                    <span class="float-right text-muted text-sm text-padding-left-1">{{ article.creation_datetime }}</span>
+                    <p><a >{{ article.article_link }}</a></p>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      {% endif %}
+    
+        <br><br>
+
+      <!-- All history articles -->
+      {% if all_articles %}
+      <section class="page-section">
+      <div class="row">
+        <div class="card card-illustration ">
+          <div class="card-header">
+            
+            <h5 class="card-title mb-0">Latest News</h5>
+          </div>
+          <div class="card-body">
+            <ul class="timeline">
+              {% for article in all_articles %}
+                <li class="timeline-item">
+                  <strong>{{ article.article_text }}</strong>
+                  <span class="float-right text-muted text-sm text-padding-left-1">{{ article.creation_datetime }}</span>
+                  <p><a >{{ article.article_link }}</a></p>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+      <br><br>
+
+
+      <section class="page-section">
+        <div class="row">
+            <div class="card card-illustration text-center">
+              <div class="card-body">
+                <div class="tradingview-widget-container">
+                  <div id="tradingview_a02bd"></div>
+                  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener" target="_blank"><span class="blue-text">Chart</span></a> by TradingView</div>
+                  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                  <script type="text/javascript">
+                      new TradingView.widget(
+                      {
+                      "width": 600,
+                      "height": 400,
+                      "symbol": "NASDAQ:ACAD",
+                      "interval": "D",
+                      "timezone": "Etc/UTC",
+                      "theme": "dark",
+                      "style": "1",
+                      "locale": "en",
+                      "toolbar_bg": "#f1f3f6",
+                      "enable_publishing": false,
+                      "allow_symbol_change": false,
+                      "container_id": "tradingview_a02bd"
+                    }
+                      );
+                  </script>
+                </div>
+
+              </div>
+            </div>
+          
+        </div>
+      </section>
+
+      <!-- TradingView Widget BEGIN -->
+    
+
+
+  </main>
+</body>
+  <!-- TradingView Widget END -->
+{% endblock %}

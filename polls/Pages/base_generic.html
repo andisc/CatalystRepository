@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block title %}<title>Local Library</title>{% endblock %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+
+</head>
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top navbar-personalized">
+            <a class="navbar-brand" href="{% url 'home_view' %}">Catalyst Repository</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'home_view' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'nasdaq_earnigs_view' %}">NASDAQ Earnings Reports</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'bio_catalysts_view' %}">Bio Catalysts</a>
+                </li>
+              </ul>
+              <form class="form-inline mt-2 mt-md-0" action = "stock_details/stock_ticker" method = "post">
+                {% csrf_token %}
+                <input id="stock_ticker" class="form-control mr-sm-2" type="text" placeholder="Ticker" aria-label="Ticker">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+          
+          
+    <br><br>      
+    {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
+    {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    </body>
+
+    <br>
+
+    <footer>
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 footer-about wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+                        <img class="logo-footer" src="assets/img/logo.png" alt="logo-footer" data-at2x="assets/img/logo.png" width="74" height="84">
+                        <p>
+                            We are a young company always looking for new and creative ideas to help you with our products in your everyday work.
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+                        <h3>Contact</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Via Rossini 10, 10136 Turin Italy</p>
+                        <p><i class="fas fa-phone"></i> Phone: (0039) 333 12 68 347</p>
+                        <p><i class="fas fa-envelope"></i> Email: <a href="mailto:hello@domain.com">hello@domain.com</a></p>
+                        
+                    </div>
+                    <div class="col-md-4 col-lg-3 footer-social wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+                        <h3>Follow us</h3>
+                        <p>
+                            <a href="#">aa<i class="fab fa-facebook"></i></a> 
+                        </p>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center;">
+                    <p>
+                    The information in this website is general information only. Any advice is general advice only. 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</html>
