@@ -1,6 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
-
+{% load tz %}
 {% block content %}
 
 <head>
@@ -15,9 +15,12 @@
       <br>
       <h2 class="mt-2">{{ stock_information.stock_name }}</h2>
       <div class="mt--2">({{ stock_information.exchange }}:{{ stock_information.stock_ticker }})</div>
-      <p>List of stocks that have earnings releases today according to the NASDAQ earnings calendar. The list is enriched with the estimated release time, the stock price data for normal and extended hours and an earnings related headline. </p>
-      
+      <br>
       <div class="row">
+        <div class="col-12 col-sm-6 ">
+          <b>Description</b>
+          <p>{{ stock_information.businessSummary }}</p>
+        </div>
         
           <div class="col-12 col-sm-6 ">
             <div class="card card-illustration">
@@ -71,14 +74,11 @@
             </div>
           </div>
           
-          <div class="col-12 col-sm-6 ">
-            <b>Description</b>
-            <p>{{ stock_information.businessSummary }}</p>
-          </div>
+          
         </div>
       </section>
 
-      <br><br>
+      <br>
 
       <!-- Todays articles, it only appears if some news was released -->
       {% if today_articles %}
@@ -94,7 +94,7 @@
                 {% for article in today_articles %}
                   <li class="timeline-item-2">
                     <strong>{{ article.article_text }}</strong>
-                    <span class="float-right text-muted text-sm text-padding-left-1">{{ article.creation_datetime }}</span>
+                    <span class="float-right text-muted text-sm text-padding-left-1">{{article.creation_datetime|date:"d M Y" }} {{ article.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}</span>
                     <p><a >{{ article.article_link }}</a></p>
                   </li>
                 {% endfor %}
@@ -105,7 +105,7 @@
       </section>
       {% endif %}
     
-        <br><br>
+        <br>
 
       <!-- All history articles -->
       {% if all_articles %}
@@ -121,7 +121,7 @@
               {% for article in all_articles %}
                 <li class="timeline-item">
                   <strong>{{ article.article_text }}</strong>
-                  <span class="float-right text-muted text-sm text-padding-left-1">{{ article.creation_datetime }}</span>
+                  <span class="float-right text-muted text-sm text-padding-left-1">{{article.creation_datetime|date:"d M Y" }} {{ article.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}</span>
                   <p><a >{{ article.article_link }}</a></p>
                 </li>
               {% endfor %}
@@ -132,7 +132,7 @@
     </section>
     {% endif %}
 
-      <br><br>
+      <br>
 
 
       <section class="page-section">
@@ -141,14 +141,16 @@
               <div class="card-body">
                 <div class="tradingview-widget-container">
                   <div id="tradingview_a02bd"></div>
-                  <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener" target="_blank"><span class="blue-text">Chart</span></a> by TradingView</div>
+                  <div class="tradingview-widget-copyright"><a rel="noopener" target="_blank"><span class="blue-text">Chart</span></a> by TradingView</div>
                   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
                   <script type="text/javascript">
+                      var a = "{{ stock_information.exchange }}" + ":" + "{{ stock_information.stock_ticker }}";
+
                       new TradingView.widget(
                       {
                       "width": 600,
                       "height": 400,
-                      "symbol": "NASDAQ:ACAD",
+                      "symbol": a,
                       "interval": "D",
                       "timezone": "Etc/UTC",
                       "theme": "dark",
@@ -168,12 +170,10 @@
           
         </div>
       </section>
+      <br>
 
-      <!-- TradingView Widget BEGIN -->
-    
 
 
   </main>
 </body>
-  <!-- TradingView Widget END -->
 {% endblock %}

@@ -10,13 +10,15 @@ from lxml import html
 from bs4 import BeautifulSoup
 
 class Stock_Result:
-    def __init__(self, stock_ticker, stock_name, last_price, volume, article_text, article_date):
+    def __init__(self, stock_ticker, stock_name, last_price, volume, exchange, article_text, article_date, creation_datetime):
         self.stock_ticker = stock_ticker
         self.stock_name = stock_name
         self.last_price = last_price
         self.volume = volume
+        self.exchange = exchange
         self.article_text = article_text
         self.article_date = article_date
+        self.creation_datetime = creation_datetime
 
 
    
@@ -68,13 +70,14 @@ def bio_catalysts_view(request):
         article = Stocks_Articles.objects.all().filter(stock_ticker=obj_stocks.stock_ticker).order_by('-creation_datetime').first()
         
         if article:
-            Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, article.article_text, article.article_date))
+            Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, obj_stocks.exchange, article.article_text, article.article_date, article.creation_datetime))
         else:
-            Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, '', ''))
+            Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, obj_stocks.exchange, '', '', ''))
 
     #Sort list by article date
     StocklistNew = sorted(Stocklist, key=lambda Stock_Result: str(Stock_Result.article_date), reverse=True)
 
+    
     context_dict = {'stocks': StocklistNew}
 
     # return response with template and context 
@@ -85,7 +88,6 @@ def bio_catalysts_view(request):
 def stock_details_view(request, i_stock_ticker): 
 
     stock_atual_price = getInformation(i_stock_ticker)
-    print(stock_atual_price)
     
     stock_information = Stocks.objects.all().filter(stock_ticker=i_stock_ticker).values('stock_ticker', 'stock_name', 'exchange', 'sector', 'industry', 'last_price', 'volume', 'businessSummary').first()
     
@@ -154,6 +156,6 @@ def getTeste(i_stock_ticker):
 
 
     except Exception:
-            print("Entrou na excepção getStockPriceYahoo...")
-            pass
+        print("Entrou na excepção getStockPriceYahoo...")
+        pass
 

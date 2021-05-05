@@ -64,3 +64,19 @@ class Logging(models.Model):
         return self.id_log
 
 
+class PreMarketStocks(models.Model):
+    stock_ticker = models.CharField(primary_key=True, max_length=10)
+    stock_name = models.CharField(max_length=200)
+    last_price = models.DecimalField(max_digits = 10, decimal_places = 4)
+    grow_price = models.DecimalField(max_digits = 10, decimal_places = 4)
+    grow_price_sinal = models.CharField(max_length=1, null=True)
+    grow_percentage = models.DecimalField(max_digits = 10, decimal_places = 4)
+    active  = models.IntegerField(default=1)
+    updated_datetime = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        db_table="PreMarketStocks"
+        verbose_name_plural="PreMarketStocks"
+
+    def __str__(self):
+        return self.stock_name

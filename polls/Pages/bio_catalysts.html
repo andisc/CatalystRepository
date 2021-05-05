@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load tz %}
 
 {% block content %}
 
@@ -70,21 +71,30 @@
   <a class="nav-link" href="{% url 'teste_view' %}">teste detail</a>
 
  
-
+  
   <section class="page-section">
+  <div class="container">
+    <div class="row justify-content-end">
+        <div class="col-12 col-md-10 col-lg-8">
+            <form>
+                <div class="card-body row no-gutters align-items-center">
+                    <!--end of col-->
+                    <div class="col">
+                        <input class="form-control form-control-lg form-control-borderless" id="searchBox" type="search" placeholder="Search ticker">
+                    </div>
+                    <!--end of col-->
+                    <div class="col-auto">
+                        <button class="btn btn-lg btn-success" type="submit">Search</button>
+                    </div>
+                    <!--end of col-->
+                </div>
+            </form>
+        </div>
+        <!--end of col-->
+    </div>
+  </div>
+
     <!-- <div class="container-table100"> -->
-    <div> 
-      <div class="row">
-        <img src="{% static 'images/search-icon.png' %}" alt="Girl in a jacket" width="30" height="30">
-        <div class="panel">
-          <div class="body">
-              <div class="input-group">
-                  <label for="searchBox">Filtrar</label>
-                  <input type="search" id="searchBox" placeholder="Filtrar...">
-              </div>
-          </div>
-      </div>
-      </div>
       <div class="wrap-table100" >
         <div class="table100">
           <table id="myTable" class="js-sort-table myTable table hover js-sort-table">
@@ -106,7 +116,7 @@
                       <td class="column2">{{stock.stock_name }}</td>
                       <td class="column3">${{stock.last_price }}</td>
                       <td class="column4">{{stock.volume }}</td>
-                      <td class="column5">{{stock.article_date }}</td>
+                      <td class="column5">{{stock.creation_datetime|date:"d M Y" }} {{stock.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}</td>
                       <td class="column6">{{stock.article_text }}</td>
                     </tr>
                 {% endfor %}
@@ -115,7 +125,6 @@
           </table>
         </div>
       </div>
-    </div>
   </section>
 
     <br>
