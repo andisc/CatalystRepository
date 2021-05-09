@@ -67,19 +67,15 @@
       Headlines data could be delayed 2-5 minutes.
     </div>
   </section>
-
-  <a class="nav-link" href="{% url 'teste_view' %}">teste detail</a>
-
- 
   
   <section class="page-section">
   <div class="container">
     <div class="row justify-content-end">
         <div class="col-12 col-md-10 col-lg-8">
             <form>
-                <div class="card-body row no-gutters align-items-center">
+                <div class="card-body row no-gutters justify-content-end">
                     <!--end of col-->
-                    <div class="col">
+                    <div class="col-4 align-items-right">
                         <input class="form-control form-control-lg form-control-borderless" id="searchBox" type="search" placeholder="Search ticker">
                     </div>
                     <!--end of col-->
@@ -116,7 +112,16 @@
                       <td class="column2">{{stock.stock_name }}</td>
                       <td class="column3">${{stock.last_price }}</td>
                       <td class="column4">{{stock.volume }}</td>
-                      <td class="column5">{{stock.creation_datetime|date:"d M Y" }} {{stock.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}</td>
+                      <td class="column5">
+                        <div class="row">
+                          <div>
+                            {% if stock.istodayarticle %} <img src="{% static 'images/icon-new.png' %}" alt="logo-bio"  width="40" height="40" > {% endif %} 
+                          </div>
+                          <div class="col-9">
+                            {{stock.creation_datetime|date:"d M Y" }} {{stock.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}</td>
+                          </div>
+                        </div>
+                        
                       <td class="column6">{{stock.article_text }}</td>
                     </tr>
                 {% endfor %}

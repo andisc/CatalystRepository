@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # import Http Response from django 
 from django.shortcuts import render 
-from polls.models import Stocks, Stocks_Articles
+from polls.models import Stocks, Stocks_Articles, Processing_Control, Logging
 from django.conf import settings
 from datetime import datetime
 import requests
@@ -10,7 +10,7 @@ from lxml import html
 from bs4 import BeautifulSoup
 
 class Stock_Result:
-    def __init__(self, stock_ticker, stock_name, last_price, volume, exchange, article_text, article_date, creation_datetime):
+    def __init__(self, stock_ticker, stock_name, last_price, volume, exchange, article_text, article_date, creation_datetime, istodayarticle):
         self.stock_ticker = stock_ticker
         self.stock_name = stock_name
         self.last_price = last_price
@@ -19,6 +19,7 @@ class Stock_Result:
         self.article_text = article_text
         self.article_date = article_date
         self.creation_datetime = creation_datetime
+        self.istodayarticle = istodayarticle
 
 
    
@@ -69,10 +70,16 @@ def bio_catalysts_view(request):
     for obj_stocks in obj_all_stocks:
         article = Stocks_Articles.objects.all().filter(stock_ticker=obj_stocks.stock_ticker).order_by('-creation_datetime').first()
         
+        istodayarticle = False
+        
+
+
         if article:
-            Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, obj_stocks.exchange, article.article_text, article.article_date, article.creation_datetime))
+            if datetime.now().date() == article.article_date:
+                istodayarticle = True
+            Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, obj_stocks.exchange, article.article_text, article.article_date, article.creation_datetime, istodayarticle))
         else:
-            Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, obj_stocks.exchange, '', '', ''))
+            Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, obj_stocks.exchange, '', '', '', istodayarticle))
 
     #Sort list by article date
     StocklistNew = sorted(Stocklist, key=lambda Stock_Result: str(Stock_Result.article_date), reverse=True)
@@ -108,6 +115,15 @@ def stock_details_view(request, i_stock_ticker):
 
 
 
+
+def purgeLogging_view(request): 
+
+    Logging.objects.all().delete()
+    Processing_Control.objects.all().delete()
+
+    return HttpResponse("Deleted all data from Logging table.")
+
+
 def getInformation(i_stock_ticker):
     
     try:
@@ -133,29 +149,29 @@ def getInformation(i_stock_ticker):
             pass
     
 
-def getTeste(i_stock_ticker):
-    
-    try:
-        url = 'https://finance.yahoo.com/quote/' + i_stock_ticker + '/profile'
-
-        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-        result = requests.get(url, headers=headers)
-        #print(result.content.decode())
-        html_content = result.content.decode()
-        soup = BeautifulSoup(html_content, 'html.parser')
-        #print(soup)
-
-        businessSummary_panel = soup.find('section', attrs={'class':'quote-sub-section Mt(30px)'})
-        businessSummary = businessSummary_panel.find('p')
-
-        print(businessSummary.text)
-
-        obj = Stocks.objects.get(stock_ticker=i_stock_ticker)
-        obj.businessSummary = businessSummary.text.replace("'", "''")
-        obj.save()
-
-
-    except Exception:
-        print("Entrou na excepção getStockPriceYahoo...")
-        pass
+#def getTeste(i_stock_ticker):
+#    
+#    try:
+#        url = 'https://finance.yahoo.com/quote/' + i_stock_ticker + '/profile'
+#
+#        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+#        result = requests.get(url, headers=headers)
+#        #print(result.content.decode())
+#        html_content = result.content.decode()
+#        soup = BeautifulSoup(html_content, 'html.parser')
+#        #print(soup)
+#
+#        businessSummary_panel = soup.find('section', attrs={'class':'quote-sub-section Mt(30px)'})
+#        businessSummary = businessSummary_panel.find('p')
+#
+#        print(businessSummary.text)
+#
+#        obj = Stocks.objects.get(stock_ticker=i_stock_ticker)
+#        obj.businessSummary = businessSummary.text.replace("'", "''")
+#        obj.save()
+#
+#
+#    except Exception:
+#        print("Entrou na excepção getStockPriceYahoo...")
+#        pass
 

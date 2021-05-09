@@ -3,6 +3,7 @@
 
 {% block content %}
 
+<title>Catalyst Repository</title>
 <link rel="stylesheet" type="text/css" href="{% static 'css/table.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
@@ -23,7 +24,7 @@
                 </p>
               </div>
               <div class="col-4" >
-                <img src="{% static 'images/revenue-growth-icon.png' %}" alt="New York" width="250" height="250">
+                <img src="{% static 'images/image1.png' %}" alt="New York" width="550" height="350" style="border-radius: 10px;">
               </div>
             </div>
           <br><br>
@@ -88,11 +89,14 @@
                 <h2 class="featurette-heading text-center">New Features Coming Soon!</h2>
             </div>
             <div class="row">
-              <div class="col-lg-4 text-center">
-                <img class="rounded-circle" src="{% static 'images/notificationIcon.png' %}"  alt="Generic placeholder image" style="background-color:#DCDCDC;" width="140" height="140">
+              <div class="col-lg-4 text-center ">
+              <div class="row justify-content-md-center">
+                <div class="rounded-circle" style="background-color: #DCDCDC;  width:140px; height:140px" >
+                 <img  src="{% static 'images/notificationIcon.png' %}"  alt="Generic placeholder image" style="padding-top: 20px;" width="110" height="120">  
+                 </div>
                 <h2>E-mail Notifications</h2>
                 <p>Receive notifications through your e-mail after a company release a new event/news. This is the best way to know the news before everyone else. </p>
-                
+              </div> 
               </div><!-- /.col-lg-4 -->
               <div class="col-lg-4 text-center">
                 <img class="rounded-circle" src="{% static 'images/filterIcon.png' %}" alt="Generic placeholder image" style="background-color:#DCDCDC;" width="140" height="140">
@@ -102,8 +106,8 @@
               </div><!-- /.col-lg-4 -->
               <div class="col-lg-4 text-center">
                 <img class="rounded-circle" src="{% static 'images/filterIcon.png' %}" alt="Generic placeholder image" style="background-color:#DCDCDC;" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                <h2>Chat Room</h2>
+                <p>We are preparing a real-time chat room where you can discuss which stocks you are trading.</p>
                 
               </div><!-- /.col-lg-4 -->
             </div><!-- /.row -->
@@ -115,7 +119,7 @@
     <br>
     <section class="page-section">
         <div class="row featurette">
-            <div class="col-md-7">
+            <div class="col-md-7 align-self-center">
               <h2 class="featurette-heading">More catalysts from new sectors. <span class="text-muted">Coming Soon.</span></h2>
               <p class="lead">We are preparing new features to give you more catalysts so that you are always ahead in the stock market. We will give you the catalysts of new sectors</p>
             </div>

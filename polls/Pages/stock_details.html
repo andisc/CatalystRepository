@@ -89,13 +89,13 @@
               
               <h5 class="card-title mb-0">Today's News Headlines</h5>
             </div>
-            <div class="card-body">
+            <div id="articlelink" class="card-body">
               <ul class="timeline">
                 {% for article in today_articles %}
-                  <li class="timeline-item-2">
+                  <li  class="timeline-item-2">
                     <strong>{{ article.article_text }}</strong>
                     <span class="float-right text-muted text-sm text-padding-left-1">{{article.creation_datetime|date:"d M Y" }} {{ article.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}</span>
-                    <p><a >{{ article.article_link }}</a></p>
+                    <p><a  href="{{ article.article_link }}" target="_blank" >{{ article.article_link }}</a></p>
                   </li>
                 {% endfor %}
               </ul>
@@ -116,13 +116,13 @@
             
             <h5 class="card-title mb-0">Latest News</h5>
           </div>
-          <div class="card-body">
+          <div id="articlelink" class="card-body">
             <ul class="timeline">
               {% for article in all_articles %}
                 <li class="timeline-item">
                   <strong>{{ article.article_text }}</strong>
                   <span class="float-right text-muted text-sm text-padding-left-1">{{article.creation_datetime|date:"d M Y" }} {{ article.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}</span>
-                  <p><a >{{ article.article_link }}</a></p>
+                  <p><a class="articlelink" href="{{ article.article_link }}" target="_blank">{{ article.article_link }}</a></p>
                 </li>
               {% endfor %}
             </ul>
