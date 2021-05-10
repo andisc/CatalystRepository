@@ -118,15 +118,10 @@
                             {% if stock.istodayarticle %} <img src="{% static 'images/icon-new.png' %}"  width="40" height="40" > {% endif %} 
                           </div>
                           <div class="col-9">
-                            {{stock.creation_datetime|date:"d M Y" }} {{stock.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}</td>
-
-                            ***
-                            {% for article in today_articles %}
-                              __{{article.creation_datetime|date:"d M Y" }} {{ article.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}
-                            {% endfor %}
+                            {{stock.creation_datetime|date:"d M Y" }} {{stock.creation_datetime|timezone:"US/Eastern"|time:"H:i:s" }}
                           </div>
                         </div>
-                        
+                      </td>  
                       <td class="column6">{{stock.article_text }}</td>
                     </tr>
                 {% endfor %}

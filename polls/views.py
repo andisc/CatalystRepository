@@ -86,12 +86,8 @@ def bio_catalysts_view(request):
     #Sort list by article date
     StocklistNew = sorted(Stocklist, key=lambda Stock_Result: str(Stock_Result.article_date), reverse=True)
 
-
-    today_articles = Stocks_Articles.objects.all().filter(stock_ticker='ADVM', article_date__gte= datetime.now().date()).order_by('-creation_datetime')
     
-    
-    context_dict = {'stocks': StocklistNew,
-                    'today_articles': today_articles}
+    context_dict = {'stocks': StocklistNew}
 
     # return response with template and context 
     return render(request, "bio_catalysts.html", context_dict)
