@@ -75,8 +75,10 @@ def bio_catalysts_view(request):
 
 
         if article:
+            #if article date is today
             if datetime.now().date() == article.article_date:
                 istodayarticle = True
+
             Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, obj_stocks.exchange, article.article_text, article.article_date, article.creation_datetime, istodayarticle))
         else:
             Stocklist.append( Stock_Result(obj_stocks.stock_ticker, obj_stocks.stock_name, obj_stocks.last_price, obj_stocks.volume, obj_stocks.exchange, '', '', '', istodayarticle))
@@ -84,8 +86,12 @@ def bio_catalysts_view(request):
     #Sort list by article date
     StocklistNew = sorted(Stocklist, key=lambda Stock_Result: str(Stock_Result.article_date), reverse=True)
 
+
+    today_articles = Stocks_Articles.objects.all().filter(stock_ticker='ADVM', article_date__gte= datetime.now().date()).order_by('-creation_datetime')
     
-    context_dict = {'stocks': StocklistNew}
+    
+    context_dict = {'stocks': StocklistNew,
+                    'today_articles': today_articles}
 
     # return response with template and context 
     return render(request, "bio_catalysts.html", context_dict)
@@ -140,7 +146,7 @@ def getInformation(i_stock_ticker):
 
 
         stock_atual_price = quote_header.find('span', attrs={'data-reactid':'32'})
-        print(stock_atual_price.text)
+        #print(stock_atual_price.text)
         return stock_atual_price.text
 
 
