@@ -23,6 +23,9 @@
                   <a class="nav-link" href="{% url 'nasdaq_earnigs_view' %}">NASDAQ Earnings Reports</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'pre_market_view' %}">Pre Market</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="{% url 'bio_catalysts_view' %}">Bio Catalysts</a>
                 </li>
               </ul>
@@ -67,11 +70,10 @@
                         
                     </div>
                     <div class="col-md-4 col-lg-3 footer-social wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
-                       <!--<h3>Follow us</h3>
+                       <h3>Legal</h3>
                         <p>
-                            <a href="#">aa<i class="fab fa-facebook"></i></a> 
+                          <a style="color: rgb(39, 39, 39);" href="{% url 'privacy_policy_view' %}">Privacy Policy</a>
                         </p>
-                        --> 
                     </div>
                 </div>
                 <div class="row" style="text-align: center;">

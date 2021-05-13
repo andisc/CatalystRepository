@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # import Http Response from django 
 from django.shortcuts import render 
-from polls.models import Stocks, Stocks_Articles, Processing_Control, Logging
+from polls.models import Stocks, Stocks_Articles, Processing_Control, Logging, PreMarketStocks
 from django.conf import settings
 from datetime import datetime
 import requests
@@ -35,6 +35,15 @@ def home_view(request):
     return render(request, "index.html", context)
 
 
+def privacy_policy_view(request): 
+    # create a dictionary to pass 
+    # data to the template 
+    context ={ 
+    } 
+    # return response with template and context 
+    return render(request, "privacypolicy.html", context)
+
+
 def nasdaq_earnigs_view(request): 
     # create a dictionary to pass 
     # data to the template 
@@ -44,6 +53,22 @@ def nasdaq_earnigs_view(request):
     } 
     # return response with template and context 
     return render(request, "nasdaq_earnigs.html", context)
+
+def pre_market_view(request): 
+    # create a dictionary to pass 
+    # data to the template 
+
+
+    premarketlist_topgaining = PreMarketStocks.objects.all().filter(grow_price_sinal='+').values('stock_ticker', 'stock_name', 'last_price', 'grow_price', 'grow_price_sinal', 'grow_percentage', 'active', 'updated_datetime').order_by('-grow_price')[:10]
+
+    premarketlist_toploss = PreMarketStocks.objects.all().filter(grow_price_sinal='-').values('stock_ticker', 'stock_name', 'last_price', 'grow_price', 'grow_price_sinal', 'grow_percentage', 'active', 'updated_datetime').order_by('-grow_price')[:10]
+
+    context ={ 
+        "premarketlist": premarketlist_topgaining,
+        "premarketlist_toploss": premarketlist_toploss
+    } 
+    # return response with template and context 
+    return render(request, "premarket.html", context)
 
 
 def teste_view(request): 

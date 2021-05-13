@@ -1,0 +1,207 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% load tz %}
+
+{% block content %}
+
+<head>
+  <title>Catalyst Repository | Bio Catalysts</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/table.css' %}">
+  <script type="text/javascript" src="{% static 'js/sort-table.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/paginate.css' %}">
+<script type="text/javascript" src="{% static 'js/paginate.js' %}"></script>
+
+  <script>
+  
+  //$(document).ready(function(){
+  //      $('.clickable-row').click(function(){
+  //        alert("alerta")
+  //        var href = $(this).find("a").attr("href");
+  //        if(href) {
+  //            window.location = href;
+  //        }
+  //      });
+  //    });
+
+      function addRowHandlers(item) {
+        full_tag = item.cells[0].innerHTML
+        href = full_tag.split('"')[1];
+
+        if(href) {
+              window.location = href;
+          }
+      }
+
+
+    </script>
+
+</head>
+<body>
+  <section class="page-section">
+    <div class="row mt-4 border-1">
+      <div class="col-md-1 col-lg-1">
+        <img src="{% static 'images/biologo.png' %}" alt="logo-bio"  width="74" height="84">
+      </div>
+      <div class="col-md-4 col-lg-4 footer-about wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+        <h2 class="title-color">Biotech Press Releases</h2>
+        <br>
+        <p>
+          Breaking news and real-time stock market updates of every NASDAQ/NYSE company. Read the latest stock market news and headlines.
+        </p>
+      </div>
+    </div>
+    <br>
+    <div class="row border-1" >
+      <b>NOTE:</b> Only NASDAQ and NYSE stocks companies presentations and/or earnings releases are shown.
+    </div>
+    <br>
+    <div class="row border-1" >
+      <p>
+        Use our tools on your road to profit in the stock market through events/catalysts that we share with you.
+      </p>
+    </div>
+    <div class="row border-1" >
+      Headlines data could be delayed 2-5 minutes.
+    </div>
+  </section>
+  
+  <section class="page-section">
+
+    Top Gaining Stocks
+
+    <!-- <div class="container-table100"> -->
+      <div class="wrap-table100" >
+        <div class="table100">
+          <table id="myTable" class="js-sort-table myTable table hover js-sort-table">
+            <thead>
+              <tr class="table100-head">
+              <th class="column1">Ticker</th>
+              <th class="column2">Name</th>
+              <th class="column3">Last Price</th>
+              <th class="column4 js-sort-number">Change</th>
+              <th class="column5">Last Update</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for stock in premarketlist %}
+                
+                <tr id="tr-clickable-row" class="clickable-row" onclick="addRowHandlers(this)">
+                      <td class="column1"><a href="{% url 'stock_details_view' stock.stock_ticker  %}"></a>{{stock.stock_ticker }}</td>
+                      <td class="column2">{{stock.stock_name }}</td>
+                      <td class="column3">${{stock.last_price }}</td>
+                      <td class="column4">
+                        {% if stock.grow_price_sinal == "+" %}
+                            <span style="color: green;"> {{ stock.grow_price_sinal }}{{stock.grow_price }} ({{ stock.grow_price_sinal }}{{stock.grow_percentage }}%)</span>
+                          {% else %}
+                          <span style="color: red;"> {{ stock.grow_price_sinal }}{{stock.grow_price }} ({{ stock.grow_price_sinal }}{{stock.grow_percentage }}%)</span>
+                        {% endif %}
+                        </td>
+                      <td class="column5">
+                        
+                            {{stock.updated_datetime|date:"d M Y" }} {{stock.updated_datetime|timezone:"US/Eastern"|time:"H:i:s" }}
+                      </td>
+                    </tr>
+                {% endfor %}
+        
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </section>
+
+
+  <section class="page-section">
+
+    Top Losing Stocks
+
+    <!-- <div class="container-table100"> -->
+      <div class="wrap-table100" >
+        <div class="table100">
+          <table id="myTable" class="js-sort-table myTable table hover js-sort-table">
+            <thead>
+              <tr class="table100-head">
+              <th class="column1">Ticker</th>
+              <th class="column2">Name</th>
+              <th class="column3">Last Price</th>
+              <th class="column4 js-sort-number">Change</th>
+              <th class="column5">Last Update</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for stock in premarketlist_toploss %}
+                
+                <tr id="tr-clickable-row" class="clickable-row" onclick="addRowHandlers(this)">
+                      <td class="column1"><a href="{% url 'stock_details_view' stock.stock_ticker  %}"></a>{{stock.stock_ticker }}</td>
+                      <td class="column2">{{stock.stock_name }}</td>
+                      <td class="column3">${{stock.last_price }}</td>
+                      <td class="column4">
+                        {% if stock.grow_price_sinal == "+" %}
+                            <span style="color: green;"> {{ stock.grow_price_sinal }}{{stock.grow_price }} ({{ stock.grow_price_sinal }}{{stock.grow_percentage }}%)</span>
+                          {% else %}
+                          <span style="color: red;"> {{ stock.grow_price_sinal }}{{stock.grow_price }} ({{ stock.grow_price_sinal }}{{stock.grow_percentage }}%)</span>
+                        {% endif %}
+                        </td>
+                      <td class="column5">
+                        
+                            {{stock.updated_datetime|date:"d M Y" }} {{stock.updated_datetime|timezone:"US/Eastern"|time:"H:i:s" }}
+                      </td>
+                    </tr>
+                {% endfor %}
+        
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </section>
+
+    <br>
+    <br>
+  <section class="page-section">
+    <div class="row border-1">
+      Stock information is delayed around 1-3 minutes
+    </div>
+  </section>
+
+<!-- ##########################-->
+
+    
+
+
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+
+    let options = {
+        numberPerPage:20, //Cantidad de datos por pagina
+        goBar:true, //Barra donde puedes digitar el numero de la pagina al que quiere ir
+        pageCounter:true, //Contador de paginas, en cual estas, de cuantas paginas
+    };
+
+    let filterOptions = {
+        el:'#searchBox' //Caja de texto para filtrar, puede ser una clase o un ID
+    };
+
+    paginate.init('.myTable',options,filterOptions);
+
+  </script>
+</body>
+{% endblock %}
