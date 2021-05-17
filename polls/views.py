@@ -4,10 +4,15 @@ from django.http import HttpResponse
 from django.shortcuts import render 
 from polls.models import Stocks, Stocks_Articles, Processing_Control, Logging, PreMarketStocks
 from django.conf import settings
+from django import forms
+from .forms import ContactUsForm
 from datetime import datetime
+from django.contrib import messages
 import requests
 from lxml import html
 from bs4 import BeautifulSoup
+from urllib import request, parse
+import json
 
 class Stock_Result:
     def __init__(self, stock_ticker, stock_name, last_price, volume, exchange, article_text, article_date, creation_datetime, istodayarticle):
@@ -42,6 +47,36 @@ def privacy_policy_view(request):
     } 
     # return response with template and context 
     return render(request, "privacypolicy.html", context)
+
+
+def contactus_view(request):
+
+    #if request.method == 'POST':
+        #form = CommentForm(request.POST)
+    form = ContactUsForm(request.POST or None )
+    sendresult = False
+    if form.is_valid():
+        #''' Begin reCAPTCHA validation '''
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        url = 'https://www.google.com/recaptcha/api/siteverify'
+        values = {
+            'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+            'response': recaptcha_response
+        }
+        data = parse.urlencode(values).encode()
+        req =  request.Request(url, data=data)
+        response = request.urlopen(req)
+        result = json.loads(response.read().decode())
+        #''' End reCAPTCHA validation '''
+        if result['success']:
+            form.save()
+            sendresult = True
+            form = ContactUsForm()
+            messages.success(request, 'New comment added with success!')
+        else:
+            messages.error(request, 'Invalid reCAPTCHA. Please try again.')
+
+    return render(request, "contactus.html", { "form" : form, "sendresult": sendresult})
 
 
 def nasdaq_earnigs_view(request): 

@@ -8,6 +8,7 @@ urlpatterns = [
     path('bio_catalysts/', views.bio_catalysts_view, name='bio_catalysts_view'),
     path('pre_market/', views.pre_market_view, name='pre_market_view'),
     path('privacy_policy/', views.privacy_policy_view, name='privacy_policy_view'),
+    path('contactus/', views.contactus_view, name='contactus_view'),
     path('stock_details/<str:i_stock_ticker>/', views.stock_details_view, name='stock_details_view'),
     path('purgeLogging/', views.purgeLogging_view, name='purgeLogging_view'),
     path('teste/', views.teste_view, name='teste_view'),

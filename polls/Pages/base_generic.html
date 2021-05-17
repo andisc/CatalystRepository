@@ -6,6 +6,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
+  
 
 </head>
     <body>
@@ -16,9 +17,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <!--<li class="nav-item active">
                   <a class="nav-link" href="{% url 'home_view' %}">Home <span class="sr-only">(current)</span></a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'nasdaq_earnigs_view' %}">NASDAQ Earnings Reports</a>
                 </li>
@@ -48,6 +49,7 @@
     <script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
     </body>
 
+
     <br>
 
     <footer>
@@ -64,8 +66,8 @@
                     </div>
                     <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
                         <h3>Contact</h3>
-                        <p><i class="fas fa-envelope"></i> Email: 
-                          <!--<a href="mailto:hello@domain.com">hello@domain.com</a> -->
+                        <p>
+                          <a style="color: rgb(39, 39, 39);" href="{% url 'contactus_view' %}">Contact Us</a>
                         </p>
                         
                     </div>

@@ -1,0 +1,75 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block title %}Contact us with any questions | Catalyst Repository{% endblock %}
+
+{% block content %}
+
+<section class="hero py-6 py-lg-7 text-white dark-overlay pt-5">
+	<img src="https://d19m59y37dris4.cloudfront.net/directory/1-1/img/photo/photo-1522143049013-2519756a52d4.jpg" alt="How can we help you today?" >
+      <div class="container overlay-content">
+        <!-- Breadcrumbs -->
+        <br>
+        <h1 class="hero-heading">How can we help you today?</h1>
+      </div>
+    </section>
+
+<section class="py-6 bg-gray-100">
+      <div class="container">
+        <h2 class="h4 mb-3">Contact form</h2>
+        {% if sendresult == True %}
+            <h5 style="color: #2A4BA8">Your message has been sent!</h5>
+        {% endif %}
+        <br>
+        <div class="row">
+          <div class="col-md-7 mb-5 mb-md-0">
+            <form id="contact-form" method="post" action="{% url 'contactus_view' %}" class="form">
+              {% csrf_token %}
+              <div class="controls">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      Your firstname *
+                      {{ form.firstname }}
+                      <div class="text-danger">{{ form.firstname.errors.as_text }}</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      Your lastname *
+                      {{ form.lastname }}
+                      <div class="text-danger">{{ form.lastname.errors.as_text }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  Your email *
+                  {{ form.email }}
+                  <div class="text-danger">{{ form.email.errors.as_text }}</div>
+                </div>
+                <div class="form-group">
+                  Your message for us *
+                  {{ form.message }}
+                  <div class="text-danger">{{ form.message.errors.as_text }}</div>
+                </div>
+                <div class="form-group">
+                  <script src='https://www.google.com/recaptcha/api.js'></script>
+                  <div class="g-recaptcha" data-sitekey="6Lc1Ya0ZAAAAACRHaEw4Vd8ivCtq4F2gLjxbf5X9"></div>
+              </div>
+                <button type="submit" class="btn btn-outline-primary">Send message</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-5">
+            <div class="pl-lg-4">
+              <p class="text-muted">If you're looking to start a partnership with us, please use the form in home page and we will contact you as soon as possible. On the other hand, if you need some help about us, use the form on the left.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!--<script src="{% static 'js/validator.js' %}" ></script> -->
+    <!--<script src="{% static 'js/contact.js' %}" ></script> -->
+
+{% endblock %}

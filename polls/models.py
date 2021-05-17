@@ -80,3 +80,17 @@ class PreMarketStocks(models.Model):
 
     def __str__(self):
         return self.stock_name
+
+
+class MessagesContacts(models.Model):
+    firstname = models.CharField(max_length=20)
+    lastname = models.CharField(max_length=20)
+    email = models.EmailField(max_length=100)
+    message = models.CharField(max_length=255)
+    read = models.BooleanField(default=False)
+    createddate = models.DateTimeField(auto_now_add=True)
+    modifiedddate = models.DateTimeField(auto_now=True)
+    class Meta:
+        db_table="MessagesContacts"
+        verbose_name_plural = "MessagesContacts"
+
