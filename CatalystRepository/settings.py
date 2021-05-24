@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'v-_%4#=z*&1=zfqi3m9usn=wg#7xaw1j3$e$3bmv!_u)1+t(tp'
 
 # Google secret key for recaptcha on conctact us page
-GOOGLE_RECAPTCHA_SECRET_KEY = '6Lc1Ya0ZAAAAAJktLM4Hb9nyWZ-XrEBaImsWIh9q'
+GOOGLE_RECAPTCHA_SECRET_KEY = '6LemcOsaAAAAANaNxmaWtSt76DuVoXZq8Z9YaLsv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
